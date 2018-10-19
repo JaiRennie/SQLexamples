@@ -1,0 +1,266 @@
+/*
+SELECT * INTO ANST FROM employee
+alter table ANST
+alter column lastname varchar(50)
+
+alter table ANST
+ADD Manager char(1)
+
+*/
+--BEGIN TRANSACTION
+
+/*UPDATE ANST
+SET manager =  'Y'
+WHERE EmpID IN (
+	SELECT ManagerId FROM ANST
+	GROUP BY ManagerId
+	HAVING count(ManagerId) > 1)  
+*/
+
+/* class example
+Update ANST
+SET 
+SELECT Distinct ManagerId FROM anst
+WHERE 
+
+
+--SELECT Lastname, Manager,Job FROM ANST
+
+/*UPDATE ANST
+SET manager =  'N'
+WHERE NOT EmpID IN (
+	SELECT ManagerId FROM ANST
+	GROUP BY ManagerId
+	HAVING count(ManagerId) > 1)
+*/
+
+alter table ANST
+alter column manager char(1) NOT NULL
+
+*/
+
+--select * into AVD from Department
+
+/*
+alter table avd
+add constraint Primkey primary key (deptID)
+*/
+
+/*
+select
+ EmpID,
+ Firstname,
+ Lastname,
+ Job,
+ ManagerID,
+ HireDate,
+ Salary,
+ Commission,
+ D.DeptID,
+ DeptName,
+ Location
+ INTO
+ TotalInfo
+ from employee AS E
+	right outer join
+	department as D
+ON E.DeptID = D.DeptID
+
+*/
+/*
+CREATE VIEW VY1 AS
+SELECT Cust_ID KundID, Firstname FName,Lastname LNamn,City Stan
+FROM Customers
+*/
+
+/*Gör en vy av Employee- och Department-tabellerna och kalla den VY2.
+ Den ska innehålla alla anställda som tjänar mer än 10 000.
+ Ta med kolumnerna anställningsnr, efternamn, jobb,
+ lön och avdelningsnamn.
+ */
+
+ /*
+CREATE VIEW VY2 AS
+SELECT E.EmpID, E.Lastname, E.Job, E.Salary, D.DeptName
+FROM Employee AS E right outer join Department AS D
+ON E.DeptID = D.DeptID
+WHERE E.Salary > 10000
+*/
+
+/*Skapa VY3 baserad på VY2 där lönen är omvandlad till dollar.
+ En dollar är värd 7.50 skr.
+*/
+
+/*CREATE VIEW VY3 AS
+SELECT EmpID,Lastname,Job, Salary * 7.5 AS DollarSalary,DeptName
+FROM VY2
+
+DROP VIEW VY1
+DROP VIEW VY2
+DROP VIEW VY3
+
+
+CREATE VIEW VY5 AS
+SELECT
+	 Lastname,
+	 Job,
+	 ISNULL(Salary,0) + ISNULL(Commission,0) AS Lön
+FROM Employee
+*/
+/*
+ALTER VIEW VY5
+ADD Manager varchar(50)
+UPDATE VY5 (Manager)
+SET Manager = Lastname
+WHERE 
+
+*/
+
+/*sp_help employee
+
+create index inxEmpSalary ON employee(salary desc)
+
+drop index inxEmpSalary ON employee
+*/
+/*
+SELECT * INTO Dept FROM Department
+
+CREATE UNIQUE INDEX  idxDNameDLocation ON Dept(DeptName,Location)
+
+Update Dept
+SET DeptName = 'Ekonomi'
+WHERE DeptID = 10
+
+Drop table Dept
+
+DBCC Showconfig
+
+select a.index_id, name, avg_fragmentation_in_percent
+from sys.dm_db_index_physical_stats (DB_ID(N't618'),
+OBJECT_ID(N'Employee'), NULL, NULL, NULL) AS a
+JOIN sys.indexes AS b
+ON a.object_id = b.object_id AND a.index_id = b.index_id
+*/
+
+--SELECT * INTO EmpTemp FROM Employee
+/*
+ALTER TABLE Employee
+ADD Username varchar(50), [Password] varchar(50);
+*/
+
+/*
+UPDATE EmpTemp
+SET Username = LOWER(LEFT(Firstname,3))+ LOWER(LEFT(Lastname,3))+ cast(DeptId as varchar(10))
+
+UPDATE EmpTemp
+SET [Password] = LOWER(RIGHT(Firstname,3))+ LOWER(RIGHT(Lastname,3)) + cast(EmpID as varchar(50))
+*/
+
+/*create proc usp_checkuserpswd (@username varchar(50),@password varchar(50))
+AS
+declare @foundusername varchar(50)
+declare @foundpassword varchar(50)
+declare @EmpId smallint
+--
+select
+ @foundusername = username,
+ @foundpassword =password,
+ @EmpID = EmpId
+  from EmpTemp
+Where username = @username
+--
+if @foundusername IS NULL
+begin
+	SELECT 'Wrong Username' as ReturnValue
+	return
+end
+--
+if @foundpassword = @password
+SELECT @EmpID as ReturnValue
+else
+SELECT 'Wrong password' as ReturnValue
+*/
+/*
+create index pswdindx on EmpTemp (username,EmpId,Password)
+
+create unique avoiddoubleusernmn on EmpTemp (username)
+*/
+
+--SELECT * INTO DeptTemp FROM Department
+/*
+
+CREATE TRIGGER Trig_DelDept
+ON DeptTemp
+AFTER DELETE AS
+BEGIN
+    SET NOCOUNT ON;
+	DELETE FROM EmpTemp
+	WHERE  DeptID= (
+		SELECT DeptId FROM Deleted
+		)
+END
+GO
+
+delete from DeptTemp where deptId = 30
+
+select * FROM EmpTEmp
+
+sp_helptrigger DeptTemp
+
+drop trigger Trig_DelDept
+
+drop table EmpTemp
+
+SELECT * from sys.objects
+WHERE
+
+SELECT text from syscomments
+
+*/
+/*
+CREATE FUNCTION Kvartal (@datum DATE)
+RETURNS int AS
+BEGIN
+	 RETURN DATEPART(qq,@datum)
+END
+*/
+/*
+CREATE FUNCTION Initcap (@strConvert varchar(50))
+RETURNS VARCHAR(50)AS
+BEGIN       
+	RETURN UPPER(LEFT(@strconvert,1)) + LOWER(RIGHT(@strconvert,(LEN(@strconvert)-1)))
+END
+
+*/
+
+--SELECT * FROM Employee
+
+--SELECT * INTO TempEmp FROM Employee
+
+--1 TO 4
+/*
+BEGIN TRANSACTION
+UPDATE TempEmp
+SET Firstname = 'Junior'
+WHERE Firstname = 'Indiana' and Lastname = 'Jones'
+
+SAVE TRANSACTION TombraiderSave
+
+UPDATE TempEmp
+SET Firstname = 'Superman'
+WHERE Firstname = 'Clark' and Lastname = 'Kent'
+
+SAVE TRANSACTION SupermansSave
+
+UPDATE TempEmp
+SET Firstname = 'Lawrence'
+WHERE Firstname = 'Larry' and Lastname = 'King'
+
+
+--ROLLBACK TRANSACTION
+COMMIT TRANSACTION
+*/
+
+create login [Pelle] with password = 'P'
+
+
