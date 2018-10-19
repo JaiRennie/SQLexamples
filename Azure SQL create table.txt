@@ -1,0 +1,45 @@
+CREATE TABLE Country(
+    CountryID INT identity(1,1) primary key,
+    CountryName NVARCHAR(100)
+    )
+
+CREATE TABLE SensorType(
+    SensorTypeID INT identity(1,1) primary key,
+    SensorType NVARCHAR(50)
+    )
+
+CREATE TABLE Placement(
+    PlacementId INT identity(1,1) primary key,
+    PlacementLocation NVARCHAR(50)
+    )
+    
+CREATE TABLE City(
+    CityID INT identity(1,1) primary key,
+    CountryID INT,
+    CityName NVARCHAR(100)
+    FOREIGN KEY (CountryID) REFERENCES Country(CountryID)
+    )
+    
+CREATE TABLE Devices(
+    DeviceId NVARCHAR(100) primary key,
+    CityID INT,
+    PlacementID INT,
+    SensorTypeID INT,
+    Latitude FLOAT,
+    Longitude FLOAT
+    FOREIGN KEY (CityID) REFERENCES City(CityID),
+    FOREIGN KEY (SensorTypeID) REFERENCES SensorType(SensorTypeID),
+    FOREIGN KEY (PlacementID) REFERENCES Placement(PlacementID)
+    )
+        
+CREATE TABLE WeatherData(
+    WeatherDataId INT identity(1,1) primary key,
+    DeviceId NVARCHAR(100), 
+    MessageTime DATETIME,
+    MessageID INT,
+    Temperature FLOAT,
+    Humidity FLOAT,
+    RainProbability FLOAT,
+    Rain NVARCHAR(50)
+    FOREIGN KEY (DeviceId) REFERENCES Devices(DeviceId)
+    )
